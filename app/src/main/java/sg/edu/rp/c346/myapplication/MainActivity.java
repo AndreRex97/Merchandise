@@ -1,6 +1,8 @@
 package sg.edu.rp.c346.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -62,20 +64,46 @@ public class MainActivity extends AppCompatActivity {
             MerchandiseAdapter arrayAdapter = new MerchandiseAdapter(this, R.layout.row, MerchandiseList);
             lvMerchandise = (ListView) findViewById(R.id.lvMerchandise);
             lvMerchandise.setAdapter(arrayAdapter);
-//            lvMerchandise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View arg1, int arg2, long arg3) {
-//
-//                    Merchandise merchandise = (Merchandise) parent.getItemAtPosition(arg2);
-//
-//                    intent = new Intent(getApplicationContext(), DisplayUserInfoActivity.class);
-//                    intent.putExtra("com.example.MAIN_MESSAGE", Integer.toString(person.getId()));
-//                    startActivity(intent);
-//                }
-//            });
+            lvMerchandise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View arg1, int arg2, long arg3) {
+
+                    Merchandise merchandise = (Merchandise) parent.getItemAtPosition(arg2);
+
+                    intent = new Intent(getApplicationContext(), displayMerchandiseInfoActivity.class);
+                    intent.putExtra("com.example.MAIN_MESSAGE", Integer.toString(merchandise.getId()));
+                    startActivity(intent);
+                }
+            });
         } else {
             // AlertBox
-//            showAlert();
+            showAlert();
         }
+    }
+
+    private void showAlert(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("No network connection!")
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = builder.create();
+
+        // show it
+        alertDialog.show();
     }
 }
