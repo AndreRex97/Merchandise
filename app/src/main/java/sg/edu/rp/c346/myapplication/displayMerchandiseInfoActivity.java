@@ -24,11 +24,19 @@ public class displayMerchandiseInfoActivity extends Activity {
         setContentView(R.layout.activity_display_merchandise_info);
 
         btnUpdate = (Button)findViewById(R.id.btnUpdate);
+        btnDelete = (Button)findViewById(R.id.btnDelete);
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateDetailsButtonClicked(view);
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteRecordButtonClicked(view);
             }
         });
     }
@@ -82,5 +90,18 @@ public class displayMerchandiseInfoActivity extends Activity {
         }
     }
 
-    
+    public void deleteRecordButtonClicked(View view){
+        //TODO 04: Send HttpRequest to removeContact.php
+        HttpRequest request = new HttpRequest("http://10.0.2.2/C302_P07/deleteItem.php");
+        request.setMethod("POST");
+        request.addData("Id", id);
+        request.execute();
+        Toast.makeText(displayMerchandiseInfoActivity.this, "Perform TODO task 4", Toast.LENGTH_SHORT).show();
+
+        try{
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
